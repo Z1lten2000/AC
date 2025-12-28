@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Casino Admin</title>
+    <script src="admin_data.js"></script>
+    <style>
+        body { background: #0f0c1d; color: white; font-family: sans-serif; padding: 20px; }
+        .card { background: #1a1630; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #3d3463; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .user-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #2a2448; }
+        .accent { color: #9d4edd; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Управление Казино</h1>
+    <div id="stats" class="stat-grid"></div>
+    <h2>Топ 20 игроков</h2>
+    <div id="users" class="card"></div>
+
+    <script>
+        function update() {
+            if (!window.ADMIN_DATA) return;
+            const d = window.ADMIN_DATA;
+            document.getElementById('stats').innerHTML = `
+                <div class="card">Всего юзеров: <br><span class="accent">${d.stats.total_users}</span></div>
+                <div class="card">Общий банк: <br><span class="accent">${d.stats.total_balance.toLocaleString()} 💰</span></div>
+            `;
+            document.getElementById('users').innerHTML = d.top_users.map(u => `
+                <div class="user-row">
+                    <span>${u.first_name}</span>
+                    <span class="accent">${u.balance.toLocaleString()} 💰</span>
+                </div>
+            `).join('');
+        }
+        window.onload = update;
+    </script>
+</body>
+</html>
